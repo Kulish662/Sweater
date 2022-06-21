@@ -14,12 +14,12 @@ import java.util.Map;
 
 @Controller
 public class MainController {
-    public static int kek = 1;
     @Autowired
     private MessageRepo messageRepo;
 
     @GetMapping("/")
     public String greeting(Map<String, Object> model) {
+        model.put("message", new Message());
         return "greeting";
     }
 
