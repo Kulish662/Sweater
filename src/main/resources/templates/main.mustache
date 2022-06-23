@@ -8,9 +8,10 @@
     <span><a href="/user">User list</a> </span>
 </div>
 <div>
-    <form method="post", action="add">
+    <form method="post" , action="add" enctype="multipart/form-data">
         <input type="text" , name="text" , placeholder="Введите сообщение">
         <input type="text" , name="tag" , placeholder="Тэг">
+        <input type="file" name="file">
         <input type="hidden" name="_csrf" value="{{_csrf.token}}"/>
         <button type="submit">Добавить</button>
     </form>
@@ -28,6 +29,9 @@
         <span>{{text}}</span>
         <i>{{tag}}</i>
         <strong>{{authorName}}</strong>
+        {{#filename}}
+            <img src="/img/{{filename}}">
+        {{/filename}}
     </div>
 {{/messages}}
 
