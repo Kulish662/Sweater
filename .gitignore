@@ -1,5 +1,4 @@
 # Project exclude paths
 /target/
-/.idea/
-/.idea/
+/Sweater.iml
 /.idea/

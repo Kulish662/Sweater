@@ -15,7 +15,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Map;
 import java.util.UUID;
 
 @Controller
@@ -34,8 +33,13 @@ public class MainController {
 
     @GetMapping("/main")
     public String main(Model model) {
-        fillModelByMessages(model);
+        fillModel(model);
         return "main";
+    }
+
+    private void fillModel(Model model) {
+        model.addAttribute("message", new Message());
+        fillModelByMessages(model);
     }
 
     private void fillModelByMessages(Model model) {
@@ -43,23 +47,26 @@ public class MainController {
         model.addAttribute("messages", messages);
     }
 
+
     @PostMapping("/add")
     public String add(
             @AuthenticationPrincipal User user,
-            @RequestParam String text,
-            @RequestParam String tag, Model model,
+            Message message,
+            Model model,
             @RequestParam("file") MultipartFile file) throws IOException {
-        Message message = new Message(text, tag, user);
+        model.addAttribute("message", message);
+        message.setAuthor(user);
+
 
         //Сохранение файла
-        if(file != null && !file.getOriginalFilename().isEmpty()) {
+        if (file != null && !file.getOriginalFilename().isEmpty()) {
             File uploadDir = new File(uploadPath);
-            if(!uploadDir.exists()) uploadDir.mkdir();
+            if (!uploadDir.exists()) uploadDir.mkdir();
             String uuidFile = UUID.randomUUID().toString();
             String resultFileName = uuidFile + "." + file.getOriginalFilename();
 
             //Загрузка файла файла
-            file.transferTo(new File(uploadPath  + "/" + resultFileName));
+            file.transferTo(new File(uploadPath + "/" + resultFileName));
 
             message.setFilename(resultFileName);
         }
@@ -71,12 +78,13 @@ public class MainController {
 
     @PostMapping("/filter")
     public String add(@RequestParam String filter, Model model) {
-        if(filter.isEmpty()){
+        if (filter.isEmpty()) {
             fillModelByMessages(model);
-        }else {
+        } else {
             Iterable<Message> filteredMessage = messageRepo.findByTag(filter);
             model.addAttribute("messages", filteredMessage);
         }
+        model.addAttribute("message", new Message());
         return "main";
     }
 
@@ -84,6 +92,7 @@ public class MainController {
     public String remove(@RequestParam String messageId, Model model) {
         messageRepo.deleteById(Long.valueOf(messageId));
         fillModelByMessages(model);
+        model.addAttribute("message", new Message());
         return "main";
     }
 

@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.Collections;
@@ -38,38 +37,4 @@ public class RegistrationController {
         userRepo.save(user);
         return "redirect:/login";
     }
-
-//    @PostMapping("/registration")
-//    public String addUser(@ModelAttribute Model model, String username, String password) {
-//        User userFromDb = userRepo.findByUsername(username);
-//
-//        if (userFromDb != null) {
-//            model.addAttribute("message", "User exists BOIIIIIIII!");
-//            return "registration";
-//        }
-//
-//        User user = new User();
-//        user.setUsername(username);
-//        user.setPassword(password);
-//        user.setActive(true);
-//        user.setRoles(Collections.singleton(Role.USER));
-//        userRepo.save(user);
-//        return "redirect:/login";
-//    }
-
-//    @PostMapping("/registration")
-//    public String addUser(@ModelAttribute Model model, User user) {
-//        User userFromDb = userRepo.findByUsername(user.getUsername());
-//
-//        if (userFromDb != null) {
-//            model.addAttribute("message", "User exists BOIIIIIIII!");
-//            return "registration";
-//        }
-//
-//        user.setActive(true);
-//        user.setRoles(Collections.singleton(Role.USER));
-//        userRepo.save(user);
-//        return "redirect:/login";
-//    }
-
 }

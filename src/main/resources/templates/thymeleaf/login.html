@@ -5,10 +5,10 @@
     <title>Title</title>
 </head>
 <body>
-<form th:action="@{/login}" th:object="${usr}"  method="post">
-    <div><input type="text"  th:field="*{username}" placeholder="User name"></div>
+<form action="/login" method="post">
+    <div><input type="text" name="username" placeholder="User name"></div>
     <br>
-    <div><input type="text"  th:field="*{password}" placeholder="Password"></div>
+    <div><input type="text" name="password" placeholder="Password"></div>
     <br>
     <div><input type="submit" value="Sign in"></div>
 </form>
