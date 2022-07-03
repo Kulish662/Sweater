@@ -1,48 +1,52 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="parts/common.html::header">
+</head>
 <body>
-<div>
-    <form th:action="@{/logout}" method="post">
-        <input type="submit" value="Sign Out"/>
+<div th:replace="parts/common.html::body"></div>
+<div class="container">
+<!--    <div>-->
+<!--        <form th:action="@{/logout}" method="post">-->
+<!--            <input type="submit" value="Sign Out"/>-->
+<!--        </form>-->
+<!--        <span><a href="/user">User list</a> </span>-->
+<!--    </div>-->
+
+    Форма добавления новых сообщений
+    <div>
+        <form method="post" th:object="${message}" th:action="@{add}" enctype="multipart/form-data">
+            <input type="text" th:field="*{text}" name="text" placeholder="Введите сообщение">
+            <input type="text" th:field="*{tag}" placeholder="Тэг">
+            <input type="file" name="file">
+            <button type="submit">Добавить</button>
+        </form>
+    </div>
+
+
+    <div>Список сообщений</div>
+    <form method="post" , th:action="@{filter}">
+        <input type="text" , name="filter">
+        <button type="submit">Фильтр</button>
     </form>
-    <span><a href="/user">User list</a> </span>
-</div>
 
-Форма добавления новых сообщений
-<div>
-    <form method="post" th:object="${message}" th:action="@{add}" enctype="multipart/form-data">
-        <input type="text" th:field="*{text}" name="text" placeholder="Введите сообщение">
-        <input type="text" th:field="*{tag}" placeholder="Тэг">
-        <input type="file" name="file">
-        <button type="submit">Добавить</button>
-    </form>
-</div>
+    <div th:each="message:${messages}">
+        <b th:text="${message.id}"></b>
+        <span th:text="${message.text}"></span>
+        <i th:text="${message.tag}"></i>
+        <strong th:text="${message.authorName}"></strong>
+        <div th:if="${message.filename != null}">
+            <img th:src="@{/img/{filename}(filename = ${message.filename})}">
+        </div>
+    </div>
 
 
-<div>Список сообщений</div>
-<form method="post" , th:action="@{filter}">
-    <input type="text" , name="filter">
-    <button type="submit">Фильтр</button>
-</form>
-
-<div th:each="message:${messages}">
-    <b th:text="${message.id}"></b>
-    <span th:text="${message.text}"></span>
-    <i th:text="${message.tag}"></i>
-    <strong th:text="${message.authorName}"></strong>
-    <div th:if="${message.filename != null}">
-        <img th:src="@{/img/{filename}(filename = ${message.filename})}">
+    <div>Удаление сообщения</div>
+    <div>
+        <form th:action="@{remove}" method="post">
+            <input type="text" name="messageId" placeholder="Введите ID сообщения для удаления">
+            <button type="submit">Удалить</button>
+        </form>
     </div>
 </div>
-
-
-<div>Удаление сообщения</div>
-<div>
-    <form th:action="@{remove}"  method="post">
-        <input type="text"  name="messageId"  placeholder="Введите ID сообщения для удаления">
-        <button type="submit">Удалить</button>
-    </form>
-</div>
-
 </body>
 </html>

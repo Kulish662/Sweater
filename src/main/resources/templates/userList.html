@@ -1,29 +1,27 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>UserList</title>
-</head>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="parts/common.html::header">
 <body>
-<table>
-    <thead>
-    <th>Name</th>
-    <th>Role</th>
-    <th></th>
-    </thead>
-    <tbody>
-    <tr th:if="${users.empty}">
-        <td colspan="2"> No user presented</td>
-    </tr>
-    <tr th:each="user:${users}">
-        <td th:text="${user.username}">Name</td>
-        <td th:text="${user.roles}">Role</td>
-<!--        <td><a href="/user/${user.id}">edit</a> </td>-->
-<!--        <td><a th:href="@{/user/{id}(id=${user.id})}">edit</a></td>-->
-        <td><a th:href="@{/user/{id}(id=${user.id})}">edit</a></td>
-<!--        todo сделать так, чтобы в метод контроллера приходил сразу класс User -->
-    </tr>
-    </tbody>
-</table>
+<div th:replace="parts/common.html::body"></div>
+<div class="container">
+    <table>
+        <thead>
+        <th>Name</th>
+        <th>Role</th>
+        <th></th>
+        </thead>
+        <tbody>
+        <tr th:if="${users.empty}">
+            <td colspan="2"> No user presented</td>
+        </tr>
+        <tr th:each="user:${users}">
+            <td th:text="${user.username}">Name</td>
+            <td th:text="${user.roles}">Role</td>
+            <td><a th:href="@{/user/{id}(id=${user.id})}">edit</a></td>
+            <!--        todo сделать так, чтобы в метод контроллера приходил сразу класс User -->
+        </tr>
+        </tbody>
+    </table>
+</div>
 </body>
 </html>

@@ -1,16 +1,28 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+    <head th:insert="parts/common.html::header">
+    </head>
 <body>
-<form action="#" th:action="@{/registration}" th:object="${user}" method="post">
-    <div><input type="text" th:field="*{username}" name="username" placeholder="User name"></div>
-    <br>
-    <div><input type="text" th:field="*{password}" name="password" placeholder="Password"></div>
-    <br>
-    <div><input type="submit" value="Sign in"></div>
-</form>
+<div class="container">
+    <div th:replace="parts/common.html::body"></div>
+    <form action="#" th:action="@{/registration}" th:object="${user}" method="post">
+        <div class="container">
+            <div th:replace="parts/loginfrom.html::form(isloginpage=false)"></div>
+        </div>
+    </form>
+
+
+<!--    todo хз почему в контроллер регистрации сразу приходит объект User-->
+    <!--    <form action="#" th:action="@{/registration}" th:object="${user}" method="post">-->
+    <!--        <div class="container">-->
+    <!--            <div><input type="text" th:field="*{username}" name="username" placeholder="User name"></div>-->
+    <!--            <br>-->
+    <!--            <div><input type="text" th:field="*{password}" name="password" placeholder="Password"></div>-->
+    <!--            <br>-->
+    <!--            <div><input type="submit" value="Sign in"></div>-->
+    <!--        </div>-->
+    <!--    </form>-->
+</div>
 </body>
 </html>

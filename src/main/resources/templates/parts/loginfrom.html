@@ -1,0 +1,16 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:fragment="form(isloginpage)" class="col-sm-3">
+    <div class="mb-3">
+        <label for="username" class="form-label">Username</label>
+        <input type="text" id="username" class="form-control" name="username">
+    </div>
+    <div class="mb-3">
+        <label for="password" class="form-label">Password</label>
+        <input type="password" id="password" name="password" class="form-control">
+    </div>
+    <div class="from-actions">
+        <button type="submit" class="btn btn-primary" th:text="${isloginpage} ? 'Log in':'Create'"></button>
+        <a th:if="${isloginpage}" class="btn btn-secondary" th:href="@{/registration}">Add new User</a>
+    </div>
+</div>
+</html>
