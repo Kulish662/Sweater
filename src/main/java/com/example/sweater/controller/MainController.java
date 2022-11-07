@@ -90,7 +90,7 @@ public class MainController {
 
     @PostMapping("/remove")
     public String remove(@RequestParam String messageId, Model model) {
-        messageRepo.deleteById(Long.valueOf(messageId));
+        messageRepo.deleteById(Long.valueOf(messageId.trim()));
         fillModelByMessages(model);
         model.addAttribute("message", new Message());
         return "main";

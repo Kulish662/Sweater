@@ -4,13 +4,13 @@
 <body>
 <div th:replace="parts/common.html::body"></div>
 <div class="container">
-    <table>
+    <table class="table table-dark table-striped">
         <thead>
         <th>Name</th>
         <th>Role</th>
         <th></th>
         </thead>
-        <tbody>
+        <tbody class="table-group-divider">
         <tr th:if="${users.empty}">
             <td colspan="2"> No user presented</td>
         </tr>
