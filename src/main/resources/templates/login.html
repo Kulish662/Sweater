@@ -10,7 +10,7 @@
             <fieldset>
                 <legend>Please login</legend>
                 <div th:if="${param.error}" class="alert alert-error">
-                    Invalid username and password
+                    Invalid username and/or password
                 </div>
                 <div th:if="${param.logout}" class="alert alert-success">
                     You logged out
@@ -18,7 +18,6 @@
                 <div th:replace="parts/loginfrom.html::form(isloginpage=true)"></div>
             </fieldset>
         </form>
-
     </div>
 </div>
 </body>
