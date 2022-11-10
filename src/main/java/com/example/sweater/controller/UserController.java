@@ -2,7 +2,7 @@ package com.example.sweater.controller;
 
 import com.example.sweater.domain.Role;
 import com.example.sweater.domain.User;
-import com.example.sweater.repos.UserRepo;
+import com.example.sweater.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -10,25 +10,23 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
 import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 
 @Controller
 @RequestMapping("/user")
-@PreAuthorize("hasAuthority('ADMIN')") // проверяет перед выполнении метода наличие у пользователя роли АДМИН
 public class UserController {
     @Autowired
-    private UserRepo userRepo;
+    private UserService userService;
 
+    @PreAuthorize("hasAuthority('ADMIN')") // проверяет перед выполнении метода наличие у пользователя роли АДМИН
     @GetMapping
     public String userList(Model model) {
-        model.addAttribute("users", userRepo.findAll());
+        model.addAttribute("users", userService.findAll());
         return "userList";
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')") // проверяет перед выполнении метода наличие у пользователя роли АДМИН
     @GetMapping("{id}")
     public String userEditForm(@PathVariable("id") User user, Model model) {
         model.addAttribute("user", user);
@@ -36,26 +34,30 @@ public class UserController {
         return "userEdit";
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')") // проверяет перед выполнении метода наличие у пользователя роли АДМИН
     @PostMapping
     public String userSave(@RequestParam String username,
                            @RequestParam Map<String, String> form,
                            @RequestParam("userId") User user) {
 
-        Set<String> roles = Arrays.stream(Role.values())
-                .map(Role::name)
-                .collect(Collectors.toSet());
-
-        //очищаем роли пользователей
-        user.getRoles().clear();
-
-        //добавляем роли
-        for (String key : form.keySet()) {
-            if(roles.contains(key)) user.getRoles().add(Role.valueOf(key));
-        }
-
-        user.setUsername(username);
-        userRepo.save(user);
+        userService.saveUser(user, username, form);
         return "redirect:/user";
+    }
+
+    @GetMapping("profile")
+    public String getProfile(Model model, @AuthenticationPrincipal User user) {
+        model.addAttribute("username", user.getUsername());
+        model.addAttribute("mail", user.getEmail());
+        return "profile";
+    }
+
+    @PostMapping("profile")
+    public String updateProfile(
+            @AuthenticationPrincipal User user,
+            @RequestParam String password,
+            @RequestParam String email) {
+        userService.updateProfile(user, password, email);
+        return "redirect:/user/profile";
     }
 
 }

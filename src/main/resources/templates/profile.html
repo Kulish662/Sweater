@@ -1,0 +1,31 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="parts/common.html::header">
+</head>
+<body>
+<div th:replace="parts/common.html::body"></div>
+<div class="container">
+    <form th:method="post" th:action="@{/user/profile}" class="col-sm-3">
+        <div th:if="${message != null}">
+            <span th:text="${message}"></span>
+        </div>
+        <!--    <div class="mb-3">-->
+        <!--        <label for="username" class="form-label">Username</label>-->
+        <!--        <input type="text" id="username" class="form-control" name="username"-->
+        <!--        >-->
+        <!--    </div>-->
+        <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input type="password" id="password" name="password" class="form-control">
+        </div>
+        <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" id="email" name="email" class="form-control"
+                   placeholder="some@some.come" th:value="${mail} ?: ''">
+        </div>
+        <div class="from-actions">
+            <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+    </form>
+</div>
+</body>
+</html>
