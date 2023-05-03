@@ -6,11 +6,11 @@
 <div th:replace="parts/common.html::body"></div>
 <div class="container">
 
-    <div class="form-row">
-        <div class="form-group  col-md-4">
-            <form class="form-inline" method="post" , th:action="@{filter}">
-                <input class="form-control" type="text" , name="filter" placeholder="Тэг" th:value="${filter}">
-                <button class="btn btn-primary ms-2" type="submit">Фильтр</button>
+    <div class="form-inline  form-row">
+        <div class="col-md-4">
+            <form class="my-2" method="post" , th:action="@{filter}">
+                <input class="form-control my-3" type="text" , name="filter" placeholder="Тэг" th:value="${filter}">
+                <button class="btn btn-primary " type="submit">Фильтр</button>
             </form>
         </div>
     </div>
@@ -20,18 +20,28 @@
        aria-controls="addForm">
         Форма добавления новых сообщений
     </a>
-    <div class="collapse" id="addForm">
-        <div class="mt-3">
-            <form th:id="addForm" method="post" th:object="${message}" th:action="@{add}"
+    <div class="collapse" th:classappend="${isErrors != null} ? 'show'" id="addForm">
+        <div class="col-md-5 mt-3" style="background-color: steelblue">
+            <form class="py-3 px-3"
+                  th:id="addForm" method="post" th:object="${message}" th:action="@{add}"
                   enctype="multipart/form-data">
                 <div class="form-group">
-                    <input class="form-control" type="text" th:field="*{text}" name="text"
-                           placeholder="Введите сообщение">
+                    <input
+                            class="form-control mb-2"
+                            th:classappend="${#fields.hasErrors('text')} ? 'is-invalid'"
+                            th:value="${message.text}"
+                            type="text" th:field="*{text}" name="text"
+                            placeholder="Введите сообщение">
+                    <div th:if="${#fields.hasErrors('text')}"
+                         class="invalid-feedback"
+                        th:errors="*{text}">
+                        Please provide valid state
+                    </div>
                 </div>
                 <div class="form-group">
-                    <input class="form-control" type="text" th:field="*{tag}" placeholder="Тэг">
+                    <input class="form-control my-2" name="tag" type="text" th:field="*{tag}" placeholder="Тэг">
                 </div>
-                <div class="form-group">
+                <div class="form-group my-2">
                     <div class="custom-file">
                         <input class="btn btn-secondary" id="customFileInput" type="file" name="file">
                     </div>
@@ -42,8 +52,8 @@
     </div>
 
 
-    <div>Список сообщений</div>
-    <div th:each="message:${messages}">
+    <div class="col mt-5">Список сообщений</div>
+    <div th:each="message:${messages}" class="px-4">
         <b th:text="${message.id}"></b>
         <span th:text="${message.text}"></span>
         <i th:text="${message.tag}"></i>
@@ -54,7 +64,7 @@
     </div>
 
 
-    <div>Удаление сообщения</div>
+    <div class="mt-3">Удаление сообщения</div>
     <div>
         <form th:action="@{remove}" method="post">
             <input type="text" name="messageId" placeholder="Введите ID сообщения для удаления">

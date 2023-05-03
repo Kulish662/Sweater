@@ -1,15 +1,18 @@
 package com.example.sweater.domain;
 
-import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+
 @Entity
 public class Message {
     @Id
-    @GeneratedValue(
-            strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @NotBlank(message = "Please fill message")
+    @Length(max = 2048, message = "message too long")
     private String text;
     private String tag;
 
@@ -33,7 +36,7 @@ public class Message {
         this.tag = tag;
     }
 
-    public String getAuthorName(){
+    public String getAuthorName() {
         return author != null ? author.getUsername() : "<none>";
     }
 
