@@ -5,15 +5,44 @@
     </div>
     <div class="mb-3">
         <label for="username" class="form-label">Username</label>
-        <input type="text" id="username" class="form-control" name="username">
+        <input type="text" id="username" class="form-control" name="username"
+               th:value="${user.username}">
     </div>
     <div class="mb-3">
+        <!--        th:unless="${#strings.startsWith(inbox?.status, 'P') OR #strings.startsWith(inbox?.status, 'App')}"-->
         <label for="password" class="form-label">Password</label>
-        <input type="password" id="password" name="password" class="form-control">
+        <input type="password" id="password" name="password" class="form-control"
+               th:classappend="${#fields.hasErrors('password') or passwordErrorMatch != null} ? 'is-invalid' "
+               th:value="${user.password}">
+        <div th:unless="${#fields.hasErrors('password')}"
+             class="invalid-feedback"
+             th:errors="*{password}">
+        </div>
+        <div th:if="${passwordErrorMatch != null}"
+             class="invalid-feedback"
+             th:text="${passwordErrorMatch}">
+        </div>
+<!--        <div th:unless="${passwordErrorMatch!=null}"-->
+<!--             class="invalid-feedback"-->
+<!--             th:text="${passwordErrorMatch}">-->
+<!--        </div>-->
     </div>
     <div th:if="${!isloginpage}" class="mb-3">
+        <label for="confirmPassword" th:class="form-label">Confirm password</label>
+        <input type="password" id="confirmPassword" name="confirmPassword" class="form-control"
+               th:classappend="${#fields.hasErrors('confirmPassword')} ? 'is-invalid'">
+        <div th:if=" ${#fields.hasErrors('confirmPassword')}"
+             class="invalid-feedback"
+             th:errors="*{confirmPassword}">
+        </div>
         <label for="email" class="form-label">Email</label>
-        <input type="email" id="email" name="email" class="form-control" placeholder="some@some.come">
+        <input type="email" id="email" name="email" class="form-control" placeholder="some@some.come"
+               th:classappend="${#fields.hasErrors('email')} ? 'is-invalid'"
+               th:value="${user.email}">
+        <div th:if="${#fields.hasErrors('email')}"
+             class="invalid-feedback"
+             th:errors="*{email}">
+        </div>
     </div>
     <div class="from-actions">
         <button type="submit" class="btn btn-primary" th:text="${isloginpage} ? 'Log in':'Create account'"></button>
