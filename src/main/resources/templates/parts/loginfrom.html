@@ -14,7 +14,7 @@
         <input type="password" id="password" name="password" class="form-control"
                th:classappend="${#fields.hasErrors('password') or passwordErrorMatch != null} ? 'is-invalid' "
                th:value="${user.password}">
-        <div th:unless="${#fields.hasErrors('password')}"
+        <div th:if="${#fields.hasErrors('password')}"
              class="invalid-feedback"
              th:errors="*{password}">
         </div>
